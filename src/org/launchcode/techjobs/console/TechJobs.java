@@ -111,14 +111,18 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-   //сделать цикл который печатает hashmap каждой работы :
-        //клдюч (например профессия)  значение (программист)
-        for (HashMap<String, String> arrayElem : someJobs)
+        if (!someJobs.isEmpty())
         {
-            System.out.println("**********");
-            printHash(arrayElem);
+            for (HashMap<String, String> arrayElem : someJobs)
+            {
+                System.out.println("**********");
+                printHash(arrayElem);
+            }
         }
-        //System.out.println("printJobs is not implemented yet");
+        else
+        {
+            System.out.println("There is no job found with your parameter(s)");
+        }
     }
     public static void printHash(HashMap<String, String> myhash)
     {
