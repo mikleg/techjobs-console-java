@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -65,7 +66,7 @@ public class JobData {
      * @param value Value of teh field to search for
      * @return List of all jobs matching the criteria
      */
-    public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
+ /*   public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
 
         // load data, if not already loaded
         loadData();
@@ -82,6 +83,85 @@ public class JobData {
         }
 
         return jobs;
+    }*/
+ //case insensitive version
+     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+
+            String aValue = row.get(column);
+
+            if (searchStringIC(aValue,value))
+            {
+                jobs.add(row);
+            }
+        }
+
+        return jobs;
+    }
+/*    public static ArrayList<HashMap<String, String>> findByValue(String value)
+    {
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs)
+        {
+
+            for (Map.Entry<String, String> myEntry : row.entrySet())
+            {
+                String aValue = myEntry.getValue().toLowerCase();
+                String aKey = myEntry.getKey().toLowerCase();
+                if (aValue.contains(value.toLowerCase())||aKey.contains(value.toLowerCase()))
+                {
+                    jobs.add(row);
+                    break;
+                }
+            }
+        }
+        return jobs;
+    }*/
+    public static ArrayList<HashMap<String, String>> findByValue(String value)
+        {
+            loadData();
+
+            ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+            for (HashMap<String, String> row : allJobs)
+            {
+
+                for (Map.Entry<String, String> myEntry : row.entrySet())
+                {
+                    String aValue = myEntry.getValue();
+                    String aKey = myEntry.getKey();
+                    if (searchStringIC(aValue,value)||searchStringIC(aKey,value))
+                    {
+                        jobs.add(row);
+                        break;
+                    }
+                }
+            }
+            return jobs;
+        }
+    public static boolean searchStringIC(String myString,String value)
+    {
+        int max_iter = myString.length()-value.length();
+        if (max_iter>=0)
+        {
+            for (int i = 0;i <= max_iter;i++)
+            {
+                if (value.equalsIgnoreCase(myString.substring(i,i+value.length())))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
